@@ -395,8 +395,6 @@ export default function BookingInterface() {
                 )}
               </motion.div>
             )}
-              </motion.div>
-            )}
 
             {step === 'booked' && (
               <motion.div
