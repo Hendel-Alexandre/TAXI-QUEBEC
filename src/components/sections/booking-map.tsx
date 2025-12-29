@@ -118,8 +118,8 @@ const BookingMap: React.FC<BookingMapProps> = ({ pickup, dropoff, route }) => {
             'line-cap': 'round'
           },
           paint: {
-            'line-color': '#000000',
-            'line-width': 4,
+            'line-color': '#3b66d4',
+            'line-width': 5,
             'line-opacity': 0.8
           }
         });

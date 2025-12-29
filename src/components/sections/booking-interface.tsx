@@ -266,7 +266,10 @@ export default function BookingInterface() {
                         <p className={`text-[11px] font-medium ${selectedCar === car.id ? 'text-white/60' : 'text-gray-400'}`}>{car.desc}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-lg italic tracking-tighter">${calculateFare(distance).total.toFixed(2)}</p>
+                        <p className="font-bold text-lg italic tracking-tighter">
+                          ${calculateFare(distance).total.toFixed(2)}
+                        </p>
+                        <p className="text-[10px] font-black uppercase tracking-tighter text-gray-400">Prix estimé</p>
                       </div>
                     </button>
                   ))}
