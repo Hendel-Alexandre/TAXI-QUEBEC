@@ -1,0 +1,155 @@
+🔧 Distance, Time & Fare Calculation Fix Prompt (Taxi Québec)
+🎯 Goal
+
+Fix the booking logic so the platform:
+
+Correctly calculates distance in kilometers
+
+Correctly calculates estimated travel time
+
+Correctly calculates estimated fare using Taxi Québec official rates
+
+Displays the route on a colored map
+
+Clearly labels all prices as estimates
+
+The current pricing logic is inaccurate and must be corrected.
+
+🚨 Non-Negotiable Rules
+
+DO NOT modify the existing UI or design
+
+DO NOT redesign screens
+
+ONLY fix calculations, routing, and map rendering
+
+If a required API is missing, clearly state which one and why
+
+🗺️ Map & Routing Requirements (Mandatory)
+
+1️⃣ Map must be visible
+
+Restore or ensure the map component is rendered
+
+Use a colored map style (not grayscale)
+
+Map must display:
+
+Pickup location pin
+
+Destination pin
+
+Route polyline between them (Uber-style)
+
+2️⃣ Route calculation
+
+Use a routing service to calculate:
+
+Real road distance (not straight-line)
+
+Estimated duration based on route
+
+The route must update automatically when pickup or destination changes
+
+Fit map bounds to show the full route
+
+📏 Distance & Time Calculation
+
+Distance must be calculated from the route response
+
+Distance unit: kilometers (km)
+
+Duration unit: minutes
+
+Do NOT:
+❌ Estimate distance using coordinates math
+❌ Use straight-line (Haversine) distance
+
+Distance and duration must come from a Directions / Routing API.
+
+💰 Fare Calculation (Taxi Québec – Official Rates)
+🕔 Day Rate (05:00 – 22:59)
+
+Base fare: 4.10 $
+
+Distance: 2.05 $ / km
+
+Waiting time: 0.77 $ / minute
+
+🌙 Night Rate (23:00 – 04:59)
+
+Base fare: 4.70 $
+
+Distance: 2.35 $ / km
+
+Waiting time: 0.89 $ / minute
+
+🧮 Pricing Logic (Required)
+
+Determine current local time (Québec)
+
+Select correct rate (day or night)
+
+Calculate:
+
+estimated_price =
+  base_fare
++ (distance_km × rate_per_km)
++ (waiting_minutes × rate_per_minute)
+
+
+For MVP:
+
+waiting_minutes = 0
+
+Round only the final price to 2 decimals
+
+🧾 Price Display Rules (Mandatory)
+
+Whenever a price is shown, always include this note:
+
+Prix estimé — le tarif final peut varier selon la circulation, l’attente et le taximètre du véhicule.
+
+or (EN):
+
+Estimated price — final fare may vary based on traffic, waiting time, and the vehicle’s taximeter.
+
+This text must always be visible near the price.
+
+🔍 Accuracy & Validation
+
+Pricing must update automatically when:
+
+Pickup changes
+
+Destination changes
+
+Route changes
+
+Estimated duration must be based on route data
+
+No surge pricing
+
+No traffic multipliers unless explicitly provided by the routing API
+
+⚠️ API Requirement Check (Important)
+
+If any of the following are missing, explicitly report it:
+
+Routing / Directions API (for distance & duration)
+
+Maps JavaScript API (for map + route rendering)
+
+Places API (for location input)
+
+Do NOT silently fallback to inaccurate calculations.
+
+✅ Acceptance Criteria
+
+✔ Colored map is visible
+✔ Route path is visible
+✔ Distance is accurate (km)
+✔ Duration is realistic (minutes)
+✔ Fare matches Taxi Québec rate logic
+✔ Prices are clearly labeled as estimates
+✔ UI remains unchanged
