@@ -11,12 +11,10 @@ import {
   Save,
   Check,
   MessageSquare,
-  Camera,
-  Shield,
-  Bell,
-  CreditCard,
-  ChevronRight
-} from 'lucide-react';
+    Camera,
+    Bell,
+    ChevronRight
+  } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 
@@ -142,35 +140,24 @@ export default function ProfilePage() {
                 <Camera className="w-4 h-4" />
               </button>
             </div>
-            <h2 className="text-xl font-bold text-black">{formData.name}</h2>
-            <p className="text-sm text-gray-500 mb-6">{formData.email}</p>
-            <div className="flex items-center justify-center gap-2 py-2 px-4 bg-green-50 rounded-full border border-green-100 w-fit mx-auto">
-               <Shield className="w-3 h-3 text-green-600" />
-               <span className="text-[10px] font-bold text-green-700 uppercase tracking-widest">Compte vérifié</span>
+              <h2 className="text-xl font-bold text-black">{formData.name}</h2>
+              <p className="text-sm text-gray-500 mb-6">{formData.email}</p>
             </div>
-          </div>
 
-          <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
-             <div className="p-4 border-b border-gray-50">
-               <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Paramètres</h3>
-             </div>
-             <div className="divide-y divide-gray-50">
-                <button className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
-                   <div className="flex items-center gap-3">
-                      <Bell className="w-5 h-5 text-gray-400" />
-                      <span className="text-sm font-bold text-black">Notifications</span>
-                   </div>
-                   <ChevronRight className="w-4 h-4 text-gray-300" />
-                </button>
-                <button className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
-                   <div className="flex items-center gap-3">
-                      <CreditCard className="w-5 h-5 text-gray-400" />
-                      <span className="text-sm font-bold text-black">Paiements</span>
-                   </div>
-                   <ChevronRight className="w-4 h-4 text-gray-300" />
-                </button>
-             </div>
-          </div>
+            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+               <div className="p-4 border-b border-gray-50">
+                 <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Paramètres</h3>
+               </div>
+               <div className="divide-y divide-gray-50">
+                  <button className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                     <div className="flex items-center gap-3">
+                        <Bell className="w-5 h-5 text-gray-400" />
+                        <span className="text-sm font-bold text-black">Notifications</span>
+                     </div>
+                     <ChevronRight className="w-4 h-4 text-gray-300" />
+                  </button>
+               </div>
+            </div>
         </div>
 
         {/* Form Content */}

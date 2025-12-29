@@ -7,13 +7,9 @@ import {
   MapPin, 
   Clock, 
   ChevronRight,
-  Star,
   Search,
   Navigation,
-  ShieldCheck,
-  CreditCard,
   History,
-  ArrowRight,
   TrendingUp,
   Map as MapIcon,
   User,
@@ -220,37 +216,18 @@ export default function DashboardPage() {
 
         {/* Sidebar Info */}
         <div className="lg:col-span-4 space-y-6">
-          {/* Profile Quick Look */}
-          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center border border-gray-200">
-                <span className="text-lg font-bold">{profile?.name?.charAt(0) || 'U'}</span>
-              </div>
-              <div>
-                <h4 className="font-bold text-black">{profile?.name || 'Utilisateur'}</h4>
-                <div className="flex items-center gap-1">
-                  <Star className="w-3 h-3 fill-black text-black" />
-                  <span className="text-xs font-bold">4.95</span>
+            {/* Profile Quick Look */}
+            <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center border border-gray-200">
+                  <span className="text-lg font-bold">{profile?.name?.charAt(0) || 'U'}</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-black">{profile?.name || 'Utilisateur'}</h4>
+                  <p className="text-xs text-gray-500">{profile?.email}</p>
                 </div>
               </div>
             </div>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2 text-gray-500">
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>Vérifié</span>
-                </div>
-                <span className="font-bold text-green-600">Oui</span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2 text-gray-500">
-                  <CreditCard className="w-4 h-4" />
-                  <span>Paiement</span>
-                </div>
-                <span className="font-bold">Visa •• 42</span>
-              </div>
-            </div>
-          </div>
 
           {/* Recent Trips List */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
@@ -287,18 +264,6 @@ export default function DashboardPage() {
             >
               Tout voir
             </Link>
-          </div>
-
-          {/* Promo Card */}
-          <div className="bg-[#E6F3FF] rounded-2xl p-6 relative overflow-hidden group cursor-pointer">
-            <div className="relative z-10">
-              <h4 className="font-bold text-blue-900 mb-1">Gagnez des remises</h4>
-              <p className="text-xs text-blue-700/80 mb-4">Parrainez un ami et obtenez 5$</p>
-              <button className="flex items-center gap-2 text-xs font-bold text-blue-900">
-                En savoir plus <ArrowRight className="w-3 h-3" />
-              </button>
-            </div>
-            <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-blue-400/10 rounded-full group-hover:scale-150 transition-transform duration-700" />
           </div>
         </div>
       </div>
