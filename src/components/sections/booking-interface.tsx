@@ -43,6 +43,7 @@ export default function BookingInterface() {
   const [remainingTime, setRemainingTime] = useState(0);
   const [progress, setProgress] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
