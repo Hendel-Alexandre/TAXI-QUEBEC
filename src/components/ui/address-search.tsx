@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { SearchBox } from '@mapbox/search-js-react';
 
 interface AddressSearchProps {
-  onSelect?: (address: string) => void;
+  onSelect?: (address: string, coordinates?: { lng: number; lat: number }) => void;
   accessToken: string;
   placeholder?: string;
   defaultValue?: string;
@@ -25,9 +25,14 @@ const AddressSearch: React.FC<AddressSearchProps> = ({ onSelect, accessToken, pl
           onChange={(val) => setValue(val)}
           onRetrieve={(res) => {
             if (res && res.features && res.features[0]) {
-              const address = res.features[0].properties.full_address || res.features[0].properties.name;
+              const feature = res.features[0];
+              const address = feature.properties.full_address || feature.properties.name;
+              const coordinates = feature.geometry.coordinates;
+              
               setValue(address);
-              if (onSelect) onSelect(address);
+              if (onSelect) {
+                onSelect(address, { lng: coordinates[0], lat: coordinates[1] });
+              }
             }
           }}
           placeholder={placeholder || "Enter address"}
