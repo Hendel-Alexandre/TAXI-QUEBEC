@@ -1,6 +1,10 @@
 export interface FareEstimate {
   baseFare: number;
+  distanceKm: number;
+  distanceRate: number;
   distanceFare: number;
+  waitingMinutes: number;
+  waitingRate: number;
   waitingFare: number;
   total: number;
   rateType: 'day' | 'night';
@@ -32,12 +36,16 @@ export const calculateFare = (distanceKm: number, waitingMinutes: number = 0): F
 
   return {
     baseFare: rates.base,
-    distanceFare,
-    waitingFare,
+    distanceKm: distanceKm,
+    distanceRate: rates.perKm,
+    distanceFare: distanceFare,
+    waitingMinutes: waitingMinutes,
+    waitingRate: rates.perMin,
+    waitingFare: waitingFare,
     total: Math.round(total * 100) / 100,
     rateType: rates.type
   };
 };
 
-export const PRICE_DISCLAIMER_FR = "Prix estimé — le tarif final peut varier selon la circulation, l’attente et le taximètre du véhicule.";
-export const PRICE_DISCLAIMER_EN = "Estimated price — final fare may vary based on traffic, waiting time, and the vehicle’s taximeter.";
+export const PRICE_DISCLAIMER_FR = "⚠️ Les prix affichés sont des estimations et peuvent varier par rapport au tarif final.";
+export const PRICE_DISCLAIMER_EN = "⚠️ Prices shown are estimates only and may vary from the final fare.";

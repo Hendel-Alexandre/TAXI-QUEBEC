@@ -311,7 +311,27 @@ export default function BookingInterface() {
 
                 <div className="bg-gray-50 rounded-3xl p-5 space-y-4 border border-gray-100">
                   <div className="flex justify-between items-center py-2 border-b border-gray-200/50">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Estimation</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Détails du tarif</span>
+                    <span className="text-xs font-bold text-black uppercase italic tracking-tighter">
+                      Tarif {fareEstimate.rateType === 'day' ? 'de jour' : 'de nuit'}
+                    </span>
+                  </div>
+                  <div className="space-y-2 py-2 border-b border-gray-200/50">
+                    <div className="flex justify-between items-center text-[10px] font-bold">
+                      <span className="text-gray-400 uppercase tracking-widest">Base</span>
+                      <span className="text-black">${fareEstimate.baseFare.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[10px] font-bold">
+                      <span className="text-gray-400 uppercase tracking-widest">Distance ({fareEstimate.distanceKm.toFixed(1)} km)</span>
+                      <span className="text-black">${fareEstimate.distanceFare.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[10px] font-bold">
+                      <span className="text-gray-400 uppercase tracking-widest">Attente ({fareEstimate.waitingMinutes} min)</span>
+                      <span className="text-black">${fareEstimate.waitingFare.toFixed(2)}</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-200/50">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Total estimé</span>
                     <span className="text-xl font-black italic tracking-tighter text-black">${fareEstimate.total.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-gray-200/50">
