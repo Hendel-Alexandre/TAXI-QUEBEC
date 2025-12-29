@@ -8,13 +8,16 @@ interface BookingMapProps {
   pickup?: { lng: number; lat: number };
   dropoff?: { lng: number; lat: number };
   route?: any;
+  userLocation?: { lat: number; lng: number };
+  isTracking?: boolean;
 }
 
-const BookingMap: React.FC<BookingMapProps> = ({ pickup, dropoff, route }) => {
+const BookingMap: React.FC<BookingMapProps> = ({ pickup, dropoff, route, userLocation, isTracking }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const pickupMarkerRef = useRef<mapboxgl.Marker | null>(null);
   const dropoffMarkerRef = useRef<mapboxgl.Marker | null>(null);
+  const userMarkerRef = useRef<mapboxgl.Marker | null>(null);
 
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
@@ -125,7 +128,7 @@ const BookingMap: React.FC<BookingMapProps> = ({ pickup, dropoff, route }) => {
         });
       }
 
-      if (pickup && dropoff) {
+      if (!isTracking && pickup && dropoff) {
         const bounds = new mapboxgl.LngLatBounds()
           .extend([pickup.lng, pickup.lat])
           .extend([dropoff.lng, dropoff.lat]);
@@ -136,7 +139,35 @@ const BookingMap: React.FC<BookingMapProps> = ({ pickup, dropoff, route }) => {
       if (map.getLayer('route')) map.removeLayer('route');
       if (map.getSource('route')) map.removeSource('route');
     }
-  }, [route, pickup, dropoff]);
+  }, [route, pickup, dropoff, isTracking]);
+
+  // Handle User Location Marker
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    if (userLocation && isTracking) {
+      if (!userMarkerRef.current) {
+        const el = document.createElement('div');
+        el.className = 'user-marker';
+        el.innerHTML = `
+          <div style="background: white; padding: 6px; border-radius: 50%; box-shadow: 0 2px 4px -1px rgb(0 0 0 / 0.1); border: 3px solid #3b66d4; margin-bottom: 4px; animation: pulse 2s infinite;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#3b66d4"><circle cx="12" cy="12" r="6"/></svg>
+          </div>
+        `;
+        
+        userMarkerRef.current = new mapboxgl.Marker(el)
+          .setLngLat([userLocation.lng, userLocation.lat])
+          .addTo(mapRef.current);
+      } else {
+        userMarkerRef.current.setLngLat([userLocation.lng, userLocation.lat]);
+      }
+
+      mapRef.current.flyTo({ center: [userLocation.lng, userLocation.lat], zoom: 16, duration: 500 });
+    } else if (userMarkerRef.current) {
+      userMarkerRef.current.remove();
+      userMarkerRef.current = null;
+    }
+  }, [userLocation, isTracking]);
 
   return <div ref={mapContainerRef} className="w-full h-full" />;
 };

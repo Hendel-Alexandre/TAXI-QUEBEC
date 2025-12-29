@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button';
 import { calculateFare, PRICE_DISCLAIMER_FR } from '@/lib/fare-utils';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
+import { useGpsTracker } from '@/hooks/use-gps-tracker';
 import BookingMap from './booking-map';
 
 const AddressSearch = dynamic(() => import('@/components/ui/address-search'), {
@@ -44,6 +45,15 @@ export default function BookingInterface() {
   const [progress, setProgress] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
   const [user, setUser] = useState<any>(null);
+  const [routePoints, setRoutePoints] = useState<any[]>([]);
+  
+  const gpsTracker = useGpsTracker(
+    distance,
+    duration,
+    dropoff?.lat,
+    dropoff?.lng,
+    routePoints.length > 0 ? routePoints : undefined
+  );
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -59,10 +69,11 @@ export default function BookingInterface() {
     return () => clearInterval(timer);
   }, [step, remainingTime, totalDuration]);
 
-  const handleImIn = () => {
+  const handleImIn = async () => {
     setTotalDuration(duration);
     setRemainingTime(duration);
     setProgress(0);
+    gpsTracker.startTracking();
   };
   
   const supabase = createClient();
@@ -96,9 +107,15 @@ export default function BookingInterface() {
       const data = await response.json();
       
       if (data.routes && data.routes[0]) {
-        setRoute(data.routes[0].geometry);
-        setDistance(data.routes[0].distance / 1000); // meters to km
-        setDuration(data.routes[0].duration / 60); // seconds to minutes
+        const geometry = data.routes[0].geometry;
+        setRoute(geometry);
+        setDistance(data.routes[0].distance / 1000);
+        setDuration(data.routes[0].duration / 60);
+        
+        if (geometry.coordinates) {
+          setRoutePoints(geometry.coordinates.map((coord: any) => ({ lng: coord[0], lat: coord[1] })));
+        }
+        
         setStep('selection');
       }
     } catch (err) {
@@ -182,6 +199,8 @@ export default function BookingInterface() {
           pickup={pickup ? { lng: pickup.lng, lat: pickup.lat } : undefined}
           dropoff={dropoff ? { lng: dropoff.lng, lat: dropoff.lat } : undefined}
           route={route}
+          userLocation={gpsTracker.currentLocation ? { lat: gpsTracker.currentLocation.lat, lng: gpsTracker.currentLocation.lng } : undefined}
+          isTracking={gpsTracker.isTracking}
         />
       </div>
 
@@ -499,22 +518,29 @@ export default function BookingInterface() {
                         <motion.div 
                           className="absolute inset-y-0 left-0 bg-[#3b66d4]"
                           initial={{ width: 0 }}
-                          animate={{ width: `${progress}%` }}
+                          animate={{ width: `${gpsTracker.isTracking ? gpsTracker.progressPercent : progress}%` }}
                         />
                       </div>
                       <div className="flex justify-between items-end">
                         <div className="text-left">
-                          <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-0.5">Temps restant (estimé)</p>
-                          <p className="text-2xl font-black italic tracking-tighter text-black leading-none">{Math.ceil(remainingTime)} min</p>
+                          <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-0.5">Temps restant {gpsTracker.isTracking ? '(réel)' : '(estimé)'}</p>
+                          <p className="text-2xl font-black italic tracking-tighter text-black leading-none">{Math.ceil(gpsTracker.isTracking ? gpsTracker.remainingDuration : remainingTime)} min</p>
                         </div>
                         <div className="text-right">
                           <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-0.5">Progression</p>
-                          <p className="text-xs font-black italic tracking-tighter text-black leading-none">{Math.round(progress)}%</p>
+                          <p className="text-xs font-black italic tracking-tighter text-black leading-none">{Math.round(gpsTracker.isTracking ? gpsTracker.progressPercent : progress)}%</p>
                         </div>
                       </div>
-                      <p className="text-[8px] font-medium text-gray-400 italic text-center">
-                        Note: Basé sur l'itinéraire prévu.
-                      </p>
+                      {gpsTracker.isTracking ? (
+                        <div className="space-y-1">
+                          <p className="text-[8px] font-medium text-green-600 italic text-center">✓ Suivi de position en direct</p>
+                          {gpsTracker.currentLocation && (
+                            <p className="text-[7px] font-medium text-gray-400 text-center">Distance restante: {gpsTracker.remainingDistance.toFixed(1)} km</p>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-[8px] font-medium text-gray-400 italic text-center">Note: Basé sur l'itinéraire prévu.</p>
+                      )}
                     </div>
                   )}
                 </div>
