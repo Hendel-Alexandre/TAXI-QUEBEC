@@ -435,70 +435,67 @@ export default function BookingInterface() {
                 key="booked"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-white rounded-[2.5rem] shadow-2xl p-6 sm:p-8 space-y-6 border border-gray-100"
+                className="bg-white rounded-[2rem] shadow-2xl p-4 sm:p-5 space-y-4 border border-gray-100 max-h-[90vh] overflow-y-auto"
               >
-                <div className="text-center space-y-2">
-                  <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-100">
-                    <CheckCircle2 className="w-8 h-8 text-white" />
+                <div className="text-center space-y-1">
+                  <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-2 shadow-lg shadow-green-100">
+                    <CheckCircle2 className="w-5 h-5 text-white" />
                   </div>
-                  <h2 className="text-2xl font-black italic tracking-tighter uppercase">Demande envoyée !</h2>
-                  <p className="text-gray-500 font-medium text-sm leading-relaxed">
-                    Nous transmettons votre demande à notre centrale de répartition. Un chauffeur vous sera assigné dans les plus brefs délais.
+                  <h2 className="text-xl font-black italic tracking-tighter uppercase leading-none">Demande envoyée !</h2>
+                  <p className="text-gray-500 font-medium text-[11px] leading-tight">
+                    Nous transmettons votre demande à notre centrale de répartition.
                   </p>
                 </div>
 
-                <div className="bg-gray-50 rounded-3xl p-5 space-y-4 border border-gray-100 text-left">
-                  <div className="flex justify-between items-start border-b border-gray-200/50 pb-3">
-                    <div className="space-y-1">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Départ</p>
-                      <p className="text-xs font-bold text-black truncate max-w-[200px]">{pickup?.address.split(',')[0]}</p>
+                <div className="bg-gray-50 rounded-2xl p-3 space-y-3 border border-gray-100 text-left">
+                  <div className="flex justify-between items-start border-b border-gray-200/50 pb-2">
+                    <div className="space-y-0.5">
+                      <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">Départ</p>
+                      <p className="text-[10px] font-bold text-black truncate max-w-[140px]">{pickup?.address.split(',')[0]}</p>
                     </div>
-                    <div className="text-right space-y-1">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Arrivée</p>
-                      <p className="text-xs font-bold text-black truncate max-w-[200px]">{dropoff?.address.split(',')[0]}</p>
+                    <div className="text-right space-y-0.5">
+                      <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">Arrivée</p>
+                      <p className="text-[10px] font-bold text-black truncate max-w-[140px]">{dropoff?.address.split(',')[0]}</p>
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4 py-1 border-b border-gray-200/50 pb-3">
+                  <div className="grid grid-cols-2 gap-4 py-0.5">
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Véhicule</p>
-                      <p className="text-xs font-bold text-black uppercase italic tracking-tighter">{selectedCar === 'standard' ? 'Standard' : 'Van XL'}</p>
+                      <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">Véhicule</p>
+                      <p className="text-[10px] font-bold text-black uppercase italic tracking-tighter">{selectedCar === 'standard' ? 'Standard' : 'Van XL'}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Estimation</p>
-                      <p className="text-sm font-black text-black">${fareEstimate.total.toFixed(2)}</p>
+                      <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">Estimation</p>
+                      <p className="text-[10px] font-black text-black">${fareEstimate.total.toFixed(2)}</p>
                     </div>
                   </div>
 
-                  <div className="bg-blue-50/50 p-3 rounded-xl border border-blue-100">
-                    <p className="text-[9px] font-medium text-blue-800 leading-relaxed text-center italic">
+                  <div className="bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+                    <p className="text-[8px] font-medium text-blue-800 leading-tight text-center italic">
                       {PRICE_DISCLAIMER_FR}
                     </p>
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                    <p className="text-[11px] font-bold text-slate-600 text-center">
-                      Vous serez contacté par <span className="text-black">téléphone ou SMS</span> sous peu pour confirmer la prise en charge.
+                <div className="space-y-3">
+                  <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <p className="text-[10px] font-bold text-slate-600 text-center leading-tight">
+                      Vous serez contacté par <span className="text-black">téléphone ou SMS</span> sous peu.
                     </p>
                   </div>
 
                   {remainingTime === 0 ? (
-                    <div className="space-y-3">
-                      <p className="text-[10px] font-medium text-gray-400 text-center px-4">
-                        Lorsque vous montez dans le taxi, appuyez ci-dessous pour suivre l'estimation du trajet.
-                      </p>
+                    <div className="space-y-2">
                       <Button 
                         onClick={handleImIn}
-                        className="w-full h-16 bg-[#3b66d4] hover:bg-blue-700 text-white rounded-2xl font-black uppercase tracking-widest text-sm shadow-xl active:scale-95 transition-all flex items-center justify-center gap-3"
+                        className="w-full h-12 bg-[#3b66d4] hover:bg-blue-700 text-white rounded-xl font-black uppercase tracking-widest text-xs shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2"
                       >
-                        Je suis à bord <ChevronRight className="w-5 h-5" />
+                        Je suis à bord <ChevronRight size={14} />
                       </Button>
                     </div>
                   ) : (
-                    <div className="space-y-6 pt-2">
-                      <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="space-y-3 pt-1">
+                      <div className="relative h-1.5 bg-gray-100 rounded-full overflow-hidden">
                         <motion.div 
                           className="absolute inset-y-0 left-0 bg-[#3b66d4]"
                           initial={{ width: 0 }}
@@ -507,30 +504,30 @@ export default function BookingInterface() {
                       </div>
                       <div className="flex justify-between items-end">
                         <div className="text-left">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Temps restant (estimé)</p>
-                          <p className="text-4xl font-black italic tracking-tighter text-black">{Math.ceil(remainingTime)} min</p>
+                          <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-0.5">Temps restant (estimé)</p>
+                          <p className="text-2xl font-black italic tracking-tighter text-black leading-none">{Math.ceil(remainingTime)} min</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Progression</p>
-                          <p className="text-sm font-black italic tracking-tighter text-black">{Math.round(progress)}%</p>
+                          <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-0.5">Progression</p>
+                          <p className="text-xs font-black italic tracking-tighter text-black leading-none">{Math.round(progress)}%</p>
                         </div>
                       </div>
-                      <p className="text-[9px] font-medium text-gray-400 italic text-center">
-                        Note: Durée estimée basée sur l'itinéraire prévu.
+                      <p className="text-[8px] font-medium text-gray-400 italic text-center">
+                        Note: Basé sur l'itinéraire prévu.
                       </p>
                     </div>
                   )}
                 </div>
 
-                <div className="flex flex-col gap-2 pt-2">
+                <div className="flex flex-col gap-1 pt-1">
                   <Button 
                     onClick={() => setStep('search')}
                     variant="ghost"
-                    className="w-full h-12 rounded-xl font-bold uppercase tracking-widest text-[10px] text-gray-400 hover:bg-gray-50"
+                    className="w-full h-10 rounded-lg font-bold uppercase tracking-widest text-[9px] text-gray-400 hover:bg-gray-50"
                   >
                     Retour à l'accueil
                   </Button>
-                  <div className="flex items-center justify-center gap-6 text-[9px] font-black uppercase tracking-widest text-gray-300">
+                  <div className="flex items-center justify-center gap-4 text-[8px] font-black uppercase tracking-widest text-gray-300">
                     <span>Taxi local agréé</span>
                     <span>Disponible 24/7</span>
                   </div>
