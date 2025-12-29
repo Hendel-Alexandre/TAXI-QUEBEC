@@ -87,30 +87,52 @@ export default function BookingInterface() {
   };
 
   const handleBooking = async () => {
-    if (!user || !pickup || !dropoff) return;
+    if (!pickup || !dropoff) {
+      setError('Veuillez sélectionner un point de départ et une destination.');
+      return;
+    }
+    
+    if (distance === 0) {
+      setError('Impossible de calculer l\'itinéraire.');
+      return;
+    }
     
     setLoading(true);
+    setError(null);
     try {
-      const { data, error } = await supabase
-        .from('rides')
-        .insert({
-          user_id: user.id,
-          pickup_address: pickup.address,
-          dropoff_address: dropoff.address,
-          pickup_lng: pickup.lng,
-          pickup_lat: pickup.lat,
-          dropoff_lng: dropoff.lng,
-          dropoff_lat: dropoff.lat,
-          estimated_price: calculateFare(distance).total,
-          status: 'pending',
-          vehicle_type: selectedCar
-        });
+      // Create a ride request (simulated for now if user not logged in, or use actual if user exists)
+      const rideData = {
+        pickup_address: pickup.address,
+        dropoff_address: dropoff.address,
+        pickup_lng: pickup.lng,
+        pickup_lat: pickup.lat,
+        dropoff_lng: dropoff.lng,
+        dropoff_lat: dropoff.lat,
+        estimated_price: calculateFare(distance).total,
+        status: 'pending',
+        vehicle_type: selectedCar
+      };
+
+      if (user) {
+        const { error } = await supabase
+          .from('rides')
+          .insert({
+            ...rideData,
+            user_id: user.id,
+          });
+        
+        if (error) throw error;
+      } else {
+        // Fallback for demo or guest booking if backend allows
+        console.log('Guest booking:', rideData);
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+      }
       
-      if (error) throw error;
       setStep('booked');
     } catch (err) {
       console.error('Error creating ride:', err);
-      setError('Erreur lors de la réservation.');
+      setError('Erreur lors de la réservation. Veuillez réessayer.');
     } finally {
       setLoading(false);
     }
@@ -334,11 +356,13 @@ export default function BookingInterface() {
                     <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Total estimé</span>
                     <span className="text-xl font-black italic tracking-tighter text-black">${fareEstimate.total.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-200/50">
+                  <div className="flex flex-col gap-1 py-2 border-b border-gray-200/50">
                     <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Paiement</span>
-                    <div className="flex items-center gap-2">
-                      <CreditCard className="w-4 h-4 text-black" />
-                      <span className="text-sm font-bold">Visa •• 42</span>
+                    <div className="flex items-start gap-2 text-blue-600">
+                      <Info className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                      <span className="text-[10px] font-bold leading-tight">
+                        Le paiement s'effectue après la course, en espèces ou par carte directement auprès du chauffeur.
+                      </span>
                     </div>
                   </div>
                   <div className="flex justify-between items-center py-2">
@@ -357,12 +381,20 @@ export default function BookingInterface() {
                   </Button>
                   <Button 
                     onClick={handleBooking}
-                    disabled={loading}
+                    disabled={loading || !pickup || !dropoff || distance === 0}
                     className="flex-[2] bg-black hover:bg-gray-900 text-white h-14 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl active:scale-95 transition-all"
                   >
                     {loading ? 'Chargement...' : 'Confirmer'}
                   </Button>
                 </div>
+                
+                {error && (
+                  <p className="text-red-500 text-[10px] font-bold text-center mt-2 uppercase italic">
+                    {error}
+                  </p>
+                )}
+              </motion.div>
+            )}
               </motion.div>
             )}
 
