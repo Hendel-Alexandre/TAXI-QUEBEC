@@ -1,0 +1,201 @@
+/* Updated: 2025-12-27T23:11:27.452Z */
+/* Updated: 2025-12-27T20:59:43.941Z */
+/* Updated: 2025-12-27T07:03:30.426Z */
+/* Updated: 2025-12-27T07:03:07.487Z */
+/* Updated: 2025-12-27T02:02:40.662Z */
+/* Updated: 2025-12-27T01:32:42.797Z */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #000000;
+
+  --color-popover: #ffffff;
+  --color-popover-foreground: #000000;
+
+    --color-primary: #3b66d4;
+    --color-primary-foreground: #ffffff;
+
+    --color-secondary: #e6e9f4;
+    --color-secondary-foreground: #3b66d4;
+
+    --color-muted: #f2f4f9;
+    --color-muted-foreground: #333333;
+
+    --color-accent: #e6e9f4;
+    --color-accent-foreground: #3b66d4;
+
+    --color-destructive: #ef4444;
+    --color-destructive-foreground: #fafafa;
+
+    --color-border: #e5e5e5;
+    --color-input: #e5e5e5;
+    --color-ring: #3b66d4;
+
+    --color-chart-1: #3b66d4;
+    --color-chart-2: #001666;
+    --color-chart-3: #e6e9f4;
+    --color-chart-4: #333333;
+    --color-chart-5: #000000;
+
+    --color-sidebar: #f7f7f7;
+    --color-sidebar-foreground: #404040;
+    --color-sidebar-primary: #3b66d4;
+    --color-sidebar-primary-foreground: #ffffff;
+    --color-sidebar-accent: #e6e9f4;
+    --color-sidebar-accent-foreground: #3b66d4;
+    --color-sidebar-border: #d4d4d8;
+    --color-sidebar-ring: #3b66d4;
+
+    --color-brand-forest: #3b66d4;
+    --color-brand-mint: #e6e9f4;
+    --color-brand-charcoal: #333333;
+    --color-brand-black: #000000;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-lg: 1.5rem;
+  --radius-md: 1rem;
+  --radius-sm: 0.75rem;
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-infinite-scroll: infinite-scroll 40s linear infinite;
+
+  @keyframes infinite-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: #e5e5e5;
+  }
+
+  :root {
+    --background: #ffffff;
+    --foreground: #000000;
+    --card: #ffffff;
+    --card-foreground: #000000;
+    --popover: #ffffff;
+    --popover-foreground: #000000;
+    --primary: #3b66d4;
+    --primary-foreground: #ffffff;
+    --secondary: #e6e9f4;
+    --secondary-foreground: #3b66d4;
+    --muted: #f2f4f9;
+    --muted-foreground: #333333;
+    --accent: #e6e9f4;
+    --accent-foreground: #3b66d4;
+    --destructive: #ef4444;
+    --destructive-foreground: #fafafa;
+    --border: #e5e5e5;
+    --input: #e5e5e5;
+    --ring: #3b66d4;
+    --radius: 1.5rem;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 3.375rem);
+  }
+
+  h4 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    line-height: 1.6;
+    color: var(--muted-foreground);
+  }
+
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    max-width: 1280px;
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .bg-mint-gradient {
+    background: linear-gradient(180deg, #e6e9f4 0%, #ffffff 100%);
+  }
+
+  .hero-overlay {
+    background: linear-gradient(rgba(59, 102, 212, 0.6), rgba(59, 102, 212, 0.4));
+  }
+}
