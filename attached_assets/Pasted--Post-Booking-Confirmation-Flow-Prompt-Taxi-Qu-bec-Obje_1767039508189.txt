@@ -1,0 +1,148 @@
+🚕 Post-Booking Confirmation Flow Prompt (Taxi Québec)
+🎯 Objective
+
+Define and implement the post-booking confirmation flow after a customer submits a ride request, ensuring clarity, reassurance, and proper expectations for a manual taxi dispatch system.
+
+🚨 Core Principles
+
+This is NOT automated dispatch
+
+This is NOT real-time taxi tracking
+
+This is a request confirmation + reassurance flow
+
+The experience must feel professional, calm, and trustworthy
+
+🧭 Confirmation Page — Required Behavior
+1️⃣ Immediate Visual Confirmation
+
+Once the customer submits a booking request:
+
+Display a clear confirmation state
+
+Show a success indicator (checkmark or confirmation icon)
+
+Headline text (example):
+
+Votre demande a bien été envoyée
+
+2️⃣ Booking Summary (Read-Only)
+
+Display a clear summary of the request:
+
+Pickup location
+
+Destination
+
+Selected vehicle type
+
+Estimated distance
+
+Estimated duration
+
+Estimated price (clearly labeled)
+
+Include a disclaimer near the price:
+
+Prix estimé — le tarif final peut varier selon la circulation, l’attente et le taximètre du véhicule.
+
+3️⃣ Status Messaging (Manual Dispatch Clarity)
+
+Show a friendly, transparent message such as:
+
+Nous transmettons votre demande à notre centrale de répartition.
+Un chauffeur vous sera assigné dans les plus brefs délais.
+
+This messaging must:
+
+Reassure the user
+
+Avoid implying automation or GPS tracking
+
+Set realistic expectations
+
+4️⃣ Communication Expectations
+
+Clearly tell the customer what happens next:
+
+They will be contacted by:
+
+SMS or
+
+Phone call
+
+Timeframe example:
+
+Vous serez contacté sous peu pour confirmer la prise en charge.
+
+Do NOT:
+❌ Show live taxi location
+❌ Show driver name/photo
+❌ Show “driver en route” status
+
+5️⃣ “I’m In” / Ride Start Action (Optional, If Present)
+
+If the platform includes an “I’m in” button:
+
+Explain its purpose clearly:
+
+Lorsque vous montez dans le taxi, appuyez sur “Je suis à bord” pour suivre l’estimation du trajet.
+
+Behavior after click:
+
+Start a client-side trip progress
+
+Show:
+
+Remaining estimated time
+
+Progress indicator
+
+No real GPS tracking implied
+
+Use clear wording:
+
+Durée estimée basée sur l’itinéraire prévu
+
+6️⃣ Safety & Reassurance Notes
+
+Include subtle reassurance:
+
+Licensed local taxi
+
+Professional drivers
+
+Available 24/7
+
+Keep it minimal — no marketing overload.
+
+7️⃣ Exit Options
+
+Provide clear next actions:
+
+Return to home
+
+Contact Taxi Québec
+
+Modify request (if supported)
+
+🧠 UX Tone & Style
+
+Calm
+
+Respectful
+
+Professional
+
+No urgency or pressure
+
+No flashy animations
+
+✅ Final Acceptance Criteria
+
+✔ User clearly understands their request was received
+✔ User knows the request is manually dispatched
+✔ No false expectations of GPS tracking
+✔ Estimated price clearly labeled
+✔ Next steps are obvious
+✔ Flow feels premium and reassuring

@@ -424,75 +424,106 @@ export default function BookingInterface() {
                 key="booked"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-white rounded-[2.5rem] shadow-2xl p-8 sm:p-10 space-y-8 border border-gray-100 text-center"
+                className="bg-white rounded-[2.5rem] shadow-2xl p-6 sm:p-8 space-y-6 border border-gray-100"
               >
-                <div className="relative">
-                  <div className="w-24 h-24 bg-green-500 rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-100 animate-bounce">
-                    <CheckCircle2 className="w-12 h-12 text-white" />
+                <div className="text-center space-y-2">
+                  <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-100">
+                    <CheckCircle2 className="w-8 h-8 text-white" />
                   </div>
-                  <div className="absolute top-0 right-1/4 w-4 h-4 bg-green-200 rounded-full animate-ping" />
-                </div>
-
-                <div className="space-y-3">
-                  <h2 className="text-3xl font-black italic tracking-tighter uppercase text-black">Demande reçue !</h2>
-                  <p className="text-gray-500 font-medium leading-relaxed">
-                    Nous traitons votre demande. <br />Nous vous aviserons dès qu’un taxi sera en route.
-                  </p>
-                  <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest bg-blue-50 py-2 rounded-lg">
-                    Répartition manuelle en cours
+                  <h2 className="text-2xl font-black italic tracking-tighter uppercase">Demande envoyée !</h2>
+                  <p className="text-gray-500 font-medium text-sm leading-relaxed">
+                    Nous transmettons votre demande à notre centrale de répartition. Un chauffeur vous sera assigné dans les plus brefs délais.
                   </p>
                 </div>
 
-                {remainingTime === 0 ? (
-                  <div className="space-y-4">
-                    <div className="bg-gray-50 rounded-3xl p-6 border border-gray-100 flex items-center justify-between">
-                      <div className="text-left">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Trajet estimé</p>
-                        <p className="text-2xl font-black italic tracking-tighter text-black">{Math.round(duration)} min</p>
-                      </div>
-                      <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                        <Clock className="w-6 h-6 text-black" />
-                      </div>
+                <div className="bg-gray-50 rounded-3xl p-5 space-y-4 border border-gray-100 text-left">
+                  <div className="flex justify-between items-start border-b border-gray-200/50 pb-3">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Départ</p>
+                      <p className="text-xs font-bold text-black truncate max-w-[200px]">{pickup?.address.split(',')[0]}</p>
                     </div>
-                    <Button 
-                      onClick={handleImIn}
-                      className="w-full h-16 bg-[#3b66d4] hover:bg-blue-700 text-white rounded-2xl font-black uppercase tracking-widest text-sm shadow-xl active:scale-95 transition-all flex items-center justify-center gap-3"
-                    >
-                      Je suis dans le taxi <ChevronRight className="w-5 h-5" />
-                    </Button>
+                    <div className="text-right space-y-1">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Arrivée</p>
+                      <p className="text-xs font-bold text-black truncate max-w-[200px]">{dropoff?.address.split(',')[0]}</p>
+                    </div>
                   </div>
-                ) : (
-                  <div className="space-y-6">
-                    <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden">
-                      <motion.div 
-                        className="absolute inset-y-0 left-0 bg-[#3b66d4]"
-                        initial={{ width: 0 }}
-                        animate={{ width: `${progress}%` }}
-                      />
+                  
+                  <div className="grid grid-cols-2 gap-4 py-1 border-b border-gray-200/50 pb-3">
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Véhicule</p>
+                      <p className="text-xs font-bold text-black uppercase italic tracking-tighter">{selectedCar === 'standard' ? 'Standard' : 'Van XL'}</p>
                     </div>
-                    <div className="flex justify-between items-end">
-                      <div className="text-left">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Temps restant (estimé)</p>
-                        <p className="text-4xl font-black italic tracking-tighter text-black">{Math.ceil(remainingTime)} min</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Progression</p>
-                        <p className="text-sm font-black italic tracking-tighter text-black">{Math.round(progress)}%</p>
-                      </div>
+                    <div className="text-right">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Estimation</p>
+                      <p className="text-sm font-black text-black">${fareEstimate.total.toFixed(2)}</p>
                     </div>
-                    <p className="text-[9px] font-medium text-gray-400 italic">
-                      Note: La position et le temps restant sont des estimations basées sur l'itinéraire prévu.
+                  </div>
+
+                  <div className="bg-blue-50/50 p-3 rounded-xl border border-blue-100">
+                    <p className="text-[9px] font-medium text-blue-800 leading-relaxed text-center italic">
+                      {PRICE_DISCLAIMER_FR}
                     </p>
                   </div>
-                )}
+                </div>
 
-                <Button 
-                  onClick={() => router.push('/dashboard/history')}
-                  variant="ghost"
-                  className="w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-gray-400 hover:bg-gray-50"
-                >
-                  Historique des courses
-                </Button>
+                <div className="space-y-4">
+                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <p className="text-[11px] font-bold text-slate-600 text-center">
+                      Vous serez contacté par <span className="text-black">téléphone ou SMS</span> sous peu pour confirmer la prise en charge.
+                    </p>
+                  </div>
+
+                  {remainingTime === 0 ? (
+                    <div className="space-y-3">
+                      <p className="text-[10px] font-medium text-gray-400 text-center px-4">
+                        Lorsque vous montez dans le taxi, appuyez ci-dessous pour suivre l'estimation du trajet.
+                      </p>
+                      <Button 
+                        onClick={handleImIn}
+                        className="w-full h-16 bg-[#3b66d4] hover:bg-blue-700 text-white rounded-2xl font-black uppercase tracking-widest text-sm shadow-xl active:scale-95 transition-all flex items-center justify-center gap-3"
+                      >
+                        Je suis à bord <ChevronRight className="w-5 h-5" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="space-y-6 pt-2">
+                      <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <motion.div 
+                          className="absolute inset-y-0 left-0 bg-[#3b66d4]"
+                          initial={{ width: 0 }}
+                          animate={{ width: `${progress}%` }}
+                        />
+                      </div>
+                      <div className="flex justify-between items-end">
+                        <div className="text-left">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Temps restant (estimé)</p>
+                          <p className="text-4xl font-black italic tracking-tighter text-black">{Math.ceil(remainingTime)} min</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Progression</p>
+                          <p className="text-sm font-black italic tracking-tighter text-black">{Math.round(progress)}%</p>
+                        </div>
+                      </div>
+                      <p className="text-[9px] font-medium text-gray-400 italic text-center">
+                        Note: Durée estimée basée sur l'itinéraire prévu.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-2 pt-2">
+                  <Button 
+                    onClick={() => setStep('search')}
+                    variant="ghost"
+                    className="w-full h-12 rounded-xl font-bold uppercase tracking-widest text-[10px] text-gray-400 hover:bg-gray-50"
+                  >
+                    Retour à l'accueil
+                  </Button>
+                  <div className="flex items-center justify-center gap-6 text-[9px] font-black uppercase tracking-widest text-gray-300">
+                    <span>Taxi local agréé</span>
+                    <span>Disponible 24/7</span>
+                  </div>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
